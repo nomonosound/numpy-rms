@@ -1,4 +1,4 @@
-from typing import Tuple
+import math
 
 import _numpy_rms
 import numpy as np
@@ -10,20 +10,26 @@ except ImportError:
     __version__ = "unknown"
 
 
-def rms(a: NDArray) -> Tuple:
+def rms(a: NDArray, window_size: int) -> NDArray:
     if 0 in a.shape:
         raise ValueError("Cannot input empty array")
+
+    output_shape = list(a.shape)
+    output_shape[-1] = math.floor(a.shape[-1] / window_size)
+    output_array = np.zeros(shape=output_shape, dtype=a.dtype)
+
     if a.dtype == np.dtype("float32"):
-        if (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"]):
-            result = _numpy_rms.lib.rms_contiguous(
-                _numpy_rms.ffi.cast("float *", a.ctypes.data), a.size
+        if a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"]:
+            _numpy_rms.lib.rms(
+                _numpy_rms.ffi.cast("float *", a.ctypes.data),
+                a.size,
+                window_size,
+                _numpy_rms.ffi.cast("float *", output_array.ctypes.data),
+                output_array.size,
             )
-            return np.float32(result.min_val), np.float32(result.max_val)
+            return output_array
         if a.ndim == 1:
-            raise Exception('Not implemented yet')
-            # result = _numpy_rms.lib.rms_1d_strided(
-            #     _numpy_rms.ffi.cast("float *", a.ctypes.data), a.size, a.strides[0]
-            # )
-            # return np.float32(result.min_val), np.float32(result.max_val)
-       # TODO: Find multi-dim arrays that can be simplified to a single stride
-    return np.amin(a), np.amax(a)
+            raise Exception("Not implemented yet")
+    else:
+        raise Exception("Not implemented yet")
+    return output_array

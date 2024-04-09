@@ -1,5 +1,6 @@
 #include <float.h>
 #include <immintrin.h>
+#include <math.h>
 #include <stdbool.h>
 
 #ifdef _MSC_VER
@@ -31,22 +32,20 @@ bool system_supports_avx512() {
 }
 
 
-void rms(const float *a, size_t length) {
-    // TODO
-    return;
-}
+void rms(const float *a, size_t length, int window_size, float *rms_output, size_t output_length) {
+    int output_i;
+    int i = 0;
+    int j;
+    double window_sum;
+    double mean_squared;
 
-void rms_avx(const float *a, size_t length) {
-    // TODO
-    return;
-}
-
-void rms_contiguous(const float *a, size_t length) {
-    // Return early for empty arrays
-    if (length == 0) {
-        return;
+    for (output_i = 0; output_i < output_length; output_i++) {
+        window_sum = 0.0;
+        for (j = i; j < i + window_size; j++) {
+            window_sum += a[j] * a[j];
+        }
+        rms_output[output_i] = sqrt(window_sum / window_size);
+        i += window_size;
     }
-    // TODO IF length and AVX, use avx (or avx512)
-    rms(a, length);
     return;
 }

@@ -1,6 +1,5 @@
 import time
 
-import diplib as dip
 import numpy as np
 
 import numpy_rms
@@ -42,4 +41,4 @@ class timer(object):
 
 
 if __name__ == "__main__":
-    # TODO
+    pass  # TODO

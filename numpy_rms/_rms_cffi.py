@@ -3,7 +3,7 @@ from cffi import FFI
 
 
 ffibuilder = FFI()
-ffibuilder.cdef("void rms_contiguous(float *, size_t);")
+ffibuilder.cdef("void rms(float *, size_t, int, float *, size_t);")
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 c_file_path = os.path.join(script_dir, "_rms.c")
