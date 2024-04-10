@@ -3,12 +3,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-#ifdef _MSC_VER
-    #include <intrin.h>  // MSVC
-#else
-    #include <cpuid.h>  // GCC and Clang
-#endif
-
 void rms(const float *a, size_t length, int window_size, float *rms_output, size_t output_length) {
     int i = 0;
     int window_end;
