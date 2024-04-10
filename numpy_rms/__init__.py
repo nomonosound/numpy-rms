@@ -16,9 +16,8 @@ def rms(a: NDArray, window_size: int) -> NDArray:
 
     if (
         a.dtype == np.dtype("float32")
-        and a.ndim == 1
+        and (a.ndim == 1 or (a.ndim == 2 and a.shape[0] == 1))
         and (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"])
-        and window_size % 8 == 0
     ):
         output_shape = list(a.shape)
         output_shape[-1] = math.floor(a.shape[-1] / window_size)

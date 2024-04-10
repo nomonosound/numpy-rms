@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "numpy-rms"
-version = "0.2.1"
+version = "0.1.0"
 description = "A fast python library for calculating the RMS of a numpy array"
 dependencies = [
     "numpy>=1.21"

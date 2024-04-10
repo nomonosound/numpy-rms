@@ -17,8 +17,10 @@ def rms_numpy(a: NDArray, window_size: int) -> NDArray:
     output_shape[-1] = math.floor(a.shape[-1] / window_size)
     output_array = np.zeros(shape=output_shape, dtype=a.dtype)
 
+    end_index = output_shape[-1] * window_size
+
     output_i = 0
-    for offset in range(0, a.shape[-1], window_size):
+    for offset in range(0, end_index, window_size):
         rms = calculate_rms(a[..., offset : offset + window_size])
         output_array[output_i] = rms
         output_i += 1
