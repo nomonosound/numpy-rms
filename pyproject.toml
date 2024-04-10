@@ -31,7 +31,7 @@ urls = { "Homepage" = "https://github.com/nomonosound/numpy-rms" }
 write_to = "numpy_rms/_version.py"
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest", "pytest-benchmark"]
 
 [tool.cibuildwheel]
 test-requires = ["cffi", "pytest"]

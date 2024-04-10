@@ -28,8 +28,6 @@ def rms(a: NDArray, window_size: int) -> NDArray:
                 output_array.size,
             )
             return output_array
-        if a.ndim == 1:
-            raise Exception("Not implemented yet")
-    else:
-        raise Exception("Not implemented yet")
-    return output_array
+
+    from .fallback import rms_numpy
+    return rms_numpy(a, window_size, output_array)

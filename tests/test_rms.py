@@ -4,11 +4,10 @@ import pytest
 import numpy_rms
 
 
-class TestRMS:
-    def test_rms_even(self):
-        arr = np.arange(40, dtype=np.float32)
-        rms = numpy_rms.rms(arr, window_size=10)
-        assert rms.shape == (4,)
-        print(rms)
+def test_rms(benchmark):
+    arr = np.arange(100_000_000, dtype=np.float32)
+    rms = benchmark(numpy_rms.rms, arr, window_size=5000)
+    assert rms.shape == (20_000,)
 
-        # TODO: more assert...
+    assert rms[0] == pytest.approx(2886.3184)
+    assert rms[1] == pytest.approx(7637.1353)
