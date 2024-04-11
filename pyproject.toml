@@ -4,8 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "numpy-rms"
+authors = [
+    {name = "Iver Jordal"}
+]
 version = "0.1.0"
-description = "A fast python library for calculating the RMS of a numpy array"
+description = "A fast python library for calculating the RMS of a NumPy array"
 dependencies = [
     "numpy>=1.21"
 ]
@@ -30,15 +33,12 @@ urls = { "Homepage" = "https://github.com/nomonosound/numpy-rms" }
 [tool.setuptools_scm]
 write_to = "numpy_rms/_version.py"
 
-[project.optional-dependencies]
-test = ["pytest", "pytest-benchmark"]
-
 [tool.cibuildwheel]
-test-requires = ["cffi", "pytest"]
+test-requires = ["cffi", "pytest", "pytest-benchmark"]
 test-command = "pytest {project}/tests"
 
 [tool.setuptools.packages.find]
-exclude = ["scripts", "tests", "wheelhouse"]
+exclude = ["tests", "wheelhouse"]
 
 [tool.pytest]
 testpaths = ["tests"]
