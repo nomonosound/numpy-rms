@@ -3,7 +3,8 @@
 #include <math.h>
 #include <stdbool.h>
 
-void rms(const float *a, size_t length, int window_size, float *rms_output, size_t output_length) {
+// NB! The length of a must be >= output_length * window_size
+void rms(const float *a, int window_size, float *rms_output, size_t output_length) {
     int i = 0;
     int j;
     double window_sum;
