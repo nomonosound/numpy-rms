@@ -1,5 +1,3 @@
-import math
-
 import numpy as np
 from numpy.typing import NDArray
 
@@ -13,8 +11,7 @@ def rms_numpy(a: NDArray, window_size: int) -> NDArray:
     if 0 in a.shape:
         raise ValueError("Cannot input empty array")
 
-    output_shape = list(a.shape)
-    output_shape[-1] = math.floor(a.shape[-1] / window_size)
+    output_shape = a.shape[:-1] + (a.shape[-1] // window_size,)
     output_array = np.zeros(shape=output_shape, dtype=a.dtype)
 
     end_index = output_shape[-1] * window_size
