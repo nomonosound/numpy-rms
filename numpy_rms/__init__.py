@@ -24,7 +24,7 @@ def rms(a: NDArray, window_size: int) -> NDArray:
         and (a.ndim == 1 or (a.ndim == 2 and a.shape[0] == 1))
         and (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"])
     ):
-        output_shape = a.shape[:-2] + (a.shape[-1] // window_size,)
+        output_shape = a.shape[:-1] + (a.shape[-1] // window_size,)
         output_array = np.zeros(shape=output_shape, dtype=a.dtype)
         _numpy_rms.lib.rms(
             _numpy_rms.ffi.cast("float *", a.ctypes.data),
