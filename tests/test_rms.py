@@ -44,24 +44,3 @@ def test_rms_window_size_smaller_than_8():
     rms_numpy_fallback = rms_numpy(arr, window_size=4)
     assert rms.shape == rms_numpy_fallback.shape
     assert_array_almost_equal(rms, rms_numpy_fallback)
-
-
-def test_rms_singlethreaded_8_large_arrays(benchmark):
-    arrays = [np.arange(5_000_000, dtype=np.float32) for _ in range(8)]
-    rms = benchmark(
-        numpy_rms.rms_multithreaded, arrays, window_size=5000, num_threads=1
-    )
-    assert len(rms) == 8
-    assert rms[0].shape == (1_000,)
-    assert rms[0][0] == pytest.approx(2886.3184)
-    assert rms[-1][1] == pytest.approx(7637.1353)
-
-def test_rms_multithreaded_8_large_arrays(benchmark):
-    arrays = [np.arange(5_000_000, dtype=np.float32) for _ in range(8)]
-    rms = benchmark(
-        numpy_rms.rms_multithreaded, arrays, window_size=5000, num_threads=4
-    )
-    assert len(rms) == 8
-    assert rms[0].shape == (1_000,)
-    assert rms[0][0] == pytest.approx(2886.3184)
-    assert rms[-1][1] == pytest.approx(7637.1353)

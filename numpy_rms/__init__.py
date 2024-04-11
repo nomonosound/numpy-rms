@@ -1,6 +1,4 @@
 import math
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import List
 
 import _numpy_rms
 import numpy as np
@@ -43,34 +41,3 @@ def rms(a: NDArray, window_size: int) -> NDArray:
     from .fallback import rms_numpy
 
     return rms_numpy(a, window_size)
-
-
-def rms_multithreaded(
-    arrays: List[NDArray], window_size: int, num_threads: int
-) -> List[NDArray]:
-    """
-    Processes a list of NumPy arrays, calculating the RMS for each array in a multithreaded manner.
-
-    :param arrays: List of NumPy arrays to process.
-    :param window_size: Window size for the RMS calculation.
-    :param num_threads: Number of threads to use for processing.
-    :return: A list of NumPy arrays containing the RMS results, None for arrays that caused an exception.
-    """
-
-    def worker(a):
-        return rms(a, window_size)
-
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        futures = {executor.submit(worker, a): a for a in arrays}
-        results = []
-
-        for future in as_completed(futures):
-            array = futures[future]
-            try:
-                result = future.result()
-                results.append(result)
-            except ValueError as e:
-                print(f"Error processing array {array}: {e}")
-                results.append(None)
-
-    return results

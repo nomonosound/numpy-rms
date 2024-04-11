@@ -1,10 +1,7 @@
-# numpy-rms: a fast function for calculating a series of RMS values
+# numpy-rms: a fast function for calculating a series of Root Mean Square (RMS) values
 
-NumPy lacked an optimized rms function, so we wrote our own. At Nomono, we use it for audio processing, but it can be applied any kind of float32 ndarray.
-
-* Written in C and takes advantage of AVX/AVX512 for speed
-* Roughly **2.3x speedup** compared to the numpy amin+amax equivalent (tested on Intel CPU with numpy 1.24-1.26)
-* The fast implementation is tailored for float32 arrays that are C-contiguous, F-contiguous or 1D strided. Strided arrays with ndim >= 2 get processed with numpy.amin and numpy.amax, so no perf gain there.
+* Written in C and takes advantage of AVX2 for speed
+* The fast implementation is tailored for contiguous 1-dimensional float32 arrays
 
 # Installation
 
@@ -23,8 +20,9 @@ $ pip install numpy-rms
 import numpy_rms
 import numpy as np
 
-arr = np.arange(1337, dtype=np.float32)
-rms_series = numpy_rms.rms(arr)
+arr = np.arange(40, dtype=np.float32)
+rms_series = numpy_rms.rms(arr, window_size=10)
+print(rms_series.shape)  # (4,)
 ```
 
 # Changelog
@@ -36,10 +34,6 @@ See [CHANGELOG.md](CHANGELOG.md)
 * Install dev/build/test dependencies as denoted in pyproject.toml
 * `CC=clang pip install -e .`
 * `pytest`
-
-# Running benchmarks
-
-* `python scripts/perf_benchmark.py`
 
 # Acknowledgements
 
