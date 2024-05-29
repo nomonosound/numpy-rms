@@ -21,13 +21,14 @@ def rms(a: NDArray, window_size: Optional[int] = None) -> NDArray:
     if 0 in a.shape:
         raise ValueError("Cannot input empty array")
 
+    if window_size is None:
+        window_size = a.shape[-1]
+
     if (
         a.dtype == np.dtype("float32")
         and (a.ndim == 1 or (a.ndim == 2 and a.shape[0] == 1))
         and (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"])
     ):
-        if window_size is None:
-            window_size = a.shape[-1]
         output_shape = a.shape[:-1] + (a.shape[-1] // window_size,)
         output_array = np.zeros(shape=output_shape, dtype=a.dtype)
         _numpy_rms.lib.rms(
