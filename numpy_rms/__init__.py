@@ -1,3 +1,5 @@
+from typing import Optional
+
 import _numpy_rms
 import numpy as np
 from numpy.typing import NDArray
@@ -8,12 +10,12 @@ except ImportError:
     __version__ = "unknown"
 
 
-def rms(a: NDArray, window_size: int) -> NDArray:
+def rms(a: NDArray, window_size: Optional[int] = None) -> NDArray:
     """
     Calculate RMS series for the given NumPy array.
 
     :param a: NumPy array to process.
-    :param window_size: Window size for the RMS calculation.
+    :param window_size: Window size for the RMS calculation. If not specified, it defaults to the length of the array.
     :return: A NumPy array containing the RMS series.
     """
     if 0 in a.shape:
@@ -24,6 +26,8 @@ def rms(a: NDArray, window_size: int) -> NDArray:
         and (a.ndim == 1 or (a.ndim == 2 and a.shape[0] == 1))
         and (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"])
     ):
+        if window_size is None:
+            window_size = a.shape[-1]
         output_shape = a.shape[:-1] + (a.shape[-1] // window_size,)
         output_array = np.zeros(shape=output_shape, dtype=a.dtype)
         _numpy_rms.lib.rms(

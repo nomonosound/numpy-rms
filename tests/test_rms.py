@@ -44,3 +44,9 @@ def test_rms_window_size_smaller_than_8():
     rms_numpy_fallback = rms_numpy(arr, window_size=4)
     assert rms.shape == rms_numpy_fallback.shape
     assert_array_almost_equal(rms, rms_numpy_fallback)
+
+
+def test_rms_window_size_none():
+    arr = np.arange(40, dtype=np.float32)
+    rms = numpy_rms.rms(arr)
+    assert rms.shape == (1,)
