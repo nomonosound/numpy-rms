@@ -7,7 +7,7 @@ name = "numpy-rms"
 authors = [
     {name = "Iver Jordal"}
 ]
-version = "0.1.0"
+version = "0.2.0"
 description = "A fast python library for calculating the RMS of a NumPy array"
 dependencies = [
     "numpy>=1.21"
