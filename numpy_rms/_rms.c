@@ -4,12 +4,15 @@
 
 void rms_avx2(const float *a, int window_size, float *rms_output, size_t output_length);
 void rms_neon(const float *a, int window_size, float *rms_output, size_t output_length);
+void rms_scalar(const float *a, int window_size, float *rms_output, size_t output_length);
 
 void rms(const float *a, int window_size, float *rms_output, size_t output_length) {
     #if defined(__x86_64__) || defined(_M_X64)
         rms_avx2(a, window_size, rms_output, output_length);
     #elif defined(__arm__) || defined(__aarch64__)
         rms_neon(a, window_size, rms_output, output_length);
+    #else
+        rms_scalar(a, window_size, rms_output, output_length);
     #endif
 }
 
@@ -60,10 +63,9 @@ void rms_avx2(const float *a, int window_size, float *rms_output, size_t output_
         rms_output[output_i] = sqrt(window_sum / window_size);
     }
 }
-#endif
 
 // NEON implementation
-#if defined(__arm__) || defined(__aarch64__)
+#elif defined(__arm__) || defined(__aarch64__)
 #include <arm_neon.h>
 
 // NB! The length of a must be >= output_length * window_size
@@ -90,7 +92,7 @@ void rms_neon(const float *a, int window_size, float *rms_output, size_t output_
         if (remainder_after_neon != 0) {
             int remainder_end = i + remainder_after_neon;
             for (; i < remainder_end; i++) {
-                window_sum += (double)a[i] * (double)a[i];
+                window_sum += a[i] * a[i];
             }
         }
 
@@ -102,10 +104,24 @@ void rms_neon(const float *a, int window_size, float *rms_output, size_t output_
 
         vst1q_f32(temp, sum_vec);
         for (j = 0; j < 4; ++j) {
-            window_sum += (double)temp[j];
+            window_sum += temp[j];
         }
 
         // Compute RMS for the window and assign it to the output
+        rms_output[output_i] = (float)sqrt(window_sum / window_size);
+    }
+}
+
+#else
+
+// Scalar implementation (fallback for other architectures)
+void rms_scalar(const float *a, int window_size, float *rms_output, size_t output_length) {
+    double window_sum;
+    for (size_t output_i = 0; output_i < output_length; output_i++) {
+        window_sum = 0.0;
+        for (int i = output_i * window_size; i < (output_i + 1) * window_size; i++) {
+            window_sum += a[i] * a[i];
+        }
         rms_output[output_i] = (float)sqrt(window_sum / window_size);
     }
 }
