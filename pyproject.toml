@@ -10,7 +10,7 @@ authors = [
 version = "0.2.0"
 description = "A fast python library for calculating the RMS of a NumPy array"
 dependencies = [
-    "numpy>=1.21"
+    "numpy>=1.21,<2"
 ]
 readme = "README.md"
 license = { file = "LICENSE" }

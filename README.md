@@ -1,6 +1,6 @@
 # numpy-rms: a fast function for calculating a series of Root Mean Square (RMS) values
 
-* Written in C and takes advantage of AVX2 for speed
+* Written in C and takes advantage of AVX (on x86-64) or NEON (on ARM) for speed
 * The fast implementation is tailored for contiguous 1-dimensional float32 arrays
 
 # Installation
