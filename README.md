@@ -8,7 +8,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/numpy-rms.svg?style=flat)](https://pypi.org/project/numpy-rms/)
 ![python 3.8, 3.9, 3.10, 3.11, 3.12](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11|%203.12-blue)
 ![os: Linux, Windows](https://img.shields.io/badge/OS-Linux%20|%20Windows-blue)
-![CPU: x86_84](https://img.shields.io/badge/CPU-x86__64-blue)
+![CPU: x86_84 & arm64](https://img.shields.io/badge/CPU-x86__64%20|%20arm64-blue)
 
 ```
 $ pip install numpy-rms
@@ -27,7 +27,13 @@ print(rms_series.shape)  # (4,)
 
 # Changelog
 
-See [CHANGELOG.md](CHANGELOG.md)
+## [0.3.0] - 2024-06-25
+
+### Added
+
+* Add Linux builds compiled for ARM with NEON SIMD optimizations
+
+For the complete changelog, go to [CHANGELOG.md](CHANGELOG.md)
 
 # Development
 
