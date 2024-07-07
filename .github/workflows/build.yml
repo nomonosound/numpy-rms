@@ -38,6 +38,30 @@ jobs:
           $env:PATH += ";C:\BuildTools\MSBuild\Current\Bin;C:\BuildTools\VC\Tools\MSVC\14.37.32822\bin\Hostx64\arm64"
           echo "C:\BuildTools\MSBuild\Current\Bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           echo "C:\BuildTools\VC\Tools\MSVC\14.37.32822\bin\Hostx64\arm64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Setup Visual C++ environment
+        shell: cmd
+        run: |
+          call "C:\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" arm64
+          set > vcvars_env.txt
+
+      - name: Update PATH with Visual C++ environment
+        shell: powershell
+        run: |
+          $vcvarsEnv = Get-Content vcvars_env.txt | ConvertFrom-StringData
+          $env:PATH = $vcvarsEnv.Path
+          echo "$env:PATH" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Verify Visual C++ Setup
+        shell: powershell
+        run: |
+          Write-Host "Checking for cl.exe (Visual C++ compiler):"
+          $clPath = (Get-Command cl -ErrorAction SilentlyContinue).Source
+          if ($clPath) {
+           Write-Host "cl.exe found at: $clPath"
+          } else {
+           Write-Host "cl.exe not found in PATH"
+          }
       - name: Diagnose Environment
         shell: powershell
         run: |
