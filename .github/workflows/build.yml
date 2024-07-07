@@ -25,6 +25,9 @@ jobs:
       - name: Install Visual C++ Build Tools
         uses: microsoft/setup-msbuild@v2
         if: ${{ matrix.os == 'windows-11-arm64' }}
+        with:
+          msbuild-architecture: arm64
+          vswhere-path: 'C:\Program Files (x86)\Microsoft Visual Studio\Installer'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
