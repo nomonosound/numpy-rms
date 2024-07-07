@@ -22,8 +22,42 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.11
-      - run: |
-          echo %PATH%
+      - name: Diagnose Environment
+        shell: powershell
+        run: |
+          # Check PATH environment variable
+          Write-Host "Current PATH:"
+          $env:PATH -split ';' | ForEach-Object { Write-Host $_ }
+          
+          # Check for Visual Studio installation
+          Write-Host "`nChecking for Visual Studio installation:"
+          if (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio") {
+              Get-ChildItem "C:\Program Files (x86)\Microsoft Visual Studio" -Directory
+          } else {
+              Write-Host "Visual Studio directory not found"
+          }
+          
+          # Check for MSBuild
+          Write-Host "`nChecking for MSBuild:"
+          $msbuildPath = (Get-Command msbuild -ErrorAction SilentlyContinue).Source
+          if ($msbuildPath) {
+              Write-Host "MSBuild found at: $msbuildPath"
+          } else {
+              Write-Host "MSBuild not found in PATH"
+          }
+          
+          # Check for vcvarsall.bat
+          Write-Host "`nChecking for vcvarsall.bat:"
+          $vcvarsallPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Recurse -Filter "vcvarsall.bat" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+          if ($vcvarsallPath) {
+              Write-Host "vcvarsall.bat found at: $vcvarsallPath"
+          } else {
+              Write-Host "vcvarsall.bat not found"
+          }
+          
+          # List Visual C++ redistributables
+          Write-Host "`nInstalled Visual C++ Redistributables:"
+          Get-WmiObject Win32_Product | Where-Object { $_.Name -like "Microsoft Visual C++*" } | ForEach-Object { Write-Host $_.Name, $_.Version }
       - name: Install Visual C++ Build Tools
         uses: microsoft/setup-msbuild@v2
         if: ${{ matrix.os == 'windows-11-arm64' }}
