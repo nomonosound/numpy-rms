@@ -27,11 +27,11 @@ print(rms_series.shape)  # (4,)
 
 # Changelog
 
-## [0.3.0] - 2024-06-25
+## [0.4.0] - 2024-07.07
 
 ### Added
 
-* Add Linux builds compiled for ARM with NEON SIMD optimizations
+* Add macOS builds
 
 For the complete changelog, go to [CHANGELOG.md](CHANGELOG.md)
 
