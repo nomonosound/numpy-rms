@@ -19,6 +19,6 @@ def rms_numpy(a: NDArray, window_size: int) -> NDArray:
     output_i = 0
     for offset in range(0, end_index, window_size):
         rms = calculate_rms(a[..., offset : offset + window_size])
-        output_array[output_i] = rms
+        output_array[..., output_i] = rms
         output_i += 1
     return output_array
