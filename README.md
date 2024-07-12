@@ -27,11 +27,11 @@ print(rms_series.shape)  # (4,)
 
 # Changelog
 
-## [0.4.0] - 2024-07.07
+## [0.4.1] - 2024-07-09
 
-### Added
+### Fixed
 
-* Add macOS builds
+* Fix multichannel processing in fallback function
 
 For the complete changelog, go to [CHANGELOG.md](CHANGELOG.md)
 
