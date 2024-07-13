@@ -27,7 +27,7 @@ def test_rms_2d_mono():
 def test_rms_2d_stereo():
     arr = np.ones(shape=(2, 500), dtype=np.float32)
     arr[1, :] = 2.0
-    rms = numpy_rms.rms(arr, window_size=50)  # as of July 2024, this will use the fallback
+    rms = numpy_rms.rms(arr, window_size=50)
     rms_numpy_fallback = rms_numpy(arr, window_size=50)
     assert rms.shape == (2, 10)
     assert rms_numpy_fallback.shape == (2, 10)

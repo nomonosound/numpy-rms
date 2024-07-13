@@ -14,7 +14,7 @@ def rms(a: NDArray, window_size: Optional[int] = None) -> NDArray:
     """
     Calculate RMS series for the given NumPy array.
 
-    :param a: NumPy array to process.
+    :param a: NumPy array to process. Can be 1D or 2D.
     :param window_size: Window size for the RMS calculation. If not specified, it defaults to the length of the array.
     :return: A NumPy array containing the RMS series.
     """
@@ -26,17 +26,32 @@ def rms(a: NDArray, window_size: Optional[int] = None) -> NDArray:
 
     if (
         a.dtype == np.dtype("float32")
-        and (a.ndim == 1 or (a.ndim == 2 and a.shape[0] == 1))
-        and (a.flags["C_CONTIGUOUS"] or a.flags["F_CONTIGUOUS"])
+        and a.ndim in (1, 2)
+        and a.flags["C_CONTIGUOUS"]
     ):
-        output_shape = a.shape[:-1] + (a.shape[-1] // window_size,)
+        output_length = a.shape[-1] // window_size
+        if a.ndim == 1:
+            output_shape = (output_length,)
+        else:  # a.ndim == 2
+            output_shape = (a.shape[0], output_length)
         output_array = np.zeros(shape=output_shape, dtype=a.dtype)
-        _numpy_rms.lib.rms(
-            _numpy_rms.ffi.cast("float *", a.ctypes.data),
-            window_size,
-            _numpy_rms.ffi.cast("float *", output_array.ctypes.data),
-            output_array.size,
-        )
+
+        if a.ndim == 1:
+            _numpy_rms.lib.rms(
+                _numpy_rms.ffi.cast("float *", a.ctypes.data),
+                window_size,
+                _numpy_rms.ffi.cast("float *", output_array.ctypes.data),
+                output_length,
+            )
+        else:  # a.ndim == 2
+            for i in range(a.shape[0]):
+                _numpy_rms.lib.rms(
+                    _numpy_rms.ffi.cast("float *", a[i].ctypes.data),
+                    window_size,
+                    _numpy_rms.ffi.cast("float *", output_array[i].ctypes.data),
+                    output_length,
+                )
+
         return output_array
 
     from .fallback import rms_numpy
