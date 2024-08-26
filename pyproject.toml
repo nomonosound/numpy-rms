@@ -11,7 +11,7 @@ version = "0.4.2"
 description = "A fast python library for calculating the RMS of a NumPy array"
 dependencies = [
     "cffi>=1.0.0",
-    "numpy>=1.21,<2"
+    "numpy>=1.21,<3"
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
