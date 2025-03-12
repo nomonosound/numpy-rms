@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install cffi cibuildwheel wheel
+          pip install cffi setuptools distutils cibuildwheel wheel
       - name: Build and test wheels
         env:
           CIBW_ARCHS: "auto64"
