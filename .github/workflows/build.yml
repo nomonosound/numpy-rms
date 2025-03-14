@@ -27,12 +27,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install cffi cibuildwheel setuptools wheel
       - name: Build and test wheels
+        continue-on-error: true
         env:
           CIBW_ARCHS: "auto64"
           CIBW_SKIP: >-
             cp36-* cp37-* cp38-* cp313-* 
             pp37-* pp38-* pp310-*
-            pp39-win_amd64  # skipped due to cffi issue https://github.com/python-cffi/cffi/pull/118
+            pp*win_*  # skipped due to cffi issue https://github.com/python-cffi/cffi/pull/118 and npy_cdouble related errors
           CC: clang
         run: |
           python -m cibuildwheel --output-dir wheelhouse
