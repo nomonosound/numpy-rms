@@ -30,7 +30,7 @@ print(rms_series.shape)  # (4,)
 
 ### Changed
 
-* Bump numpy to >=2,<3
+* Bump numpy to >=2,<3. If you need compatibility with numpy 1.*, you can use numpy-rms==0.4.2
 
 ### Removed
 

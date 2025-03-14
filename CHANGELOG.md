@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-* Bump numpy to >=2,<3
+* Bump numpy to >=2,<3. If you need compatibility with numpy 1.*, you can use numpy-rms==0.4.2
 
 ### Removed
 
