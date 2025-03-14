@@ -26,11 +26,16 @@ print(rms_series.shape)  # (4,)
 
 # Changelog
 
-## [0.4.2] - 2024-07-13
+## [0.5.0] - 2025-03-14
 
 ### Changed
 
-* Optimize the processing of multichannel arrays
+* Bump numpy to >=2,<3
+
+### Removed
+
+* Remove support for Python 3.8
+* Remove support for PyPy on Windows
 
 For the complete changelog, go to [CHANGELOG.md](CHANGELOG.md)
 
