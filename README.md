@@ -6,7 +6,7 @@
 # Installation
 
 [![PyPI version](https://img.shields.io/pypi/v/numpy-rms.svg?style=flat)](https://pypi.org/project/numpy-rms/)
-![python 3.8, 3.9, 3.10, 3.11, 3.12](https://img.shields.io/badge/Python-3.8%20|%203.9%20|%203.10%20|%203.11|%203.12-blue)
+![python 3.9, 3.10, 3.11, 3.12. 3.13](https://img.shields.io/badge/Python-3.9%20|%203.10%20|%203.11|%203.12%20|%203.13-blue)
 ![os: Linux, macOS, Windows](https://img.shields.io/badge/OS-Linux%20%28arm%20%26%20x86--64%29%20|%20macOS%20%28arm%20%26%20x86--64%29%20|%20Windows%20%28x86--64%29-blue)
 
 ```
@@ -26,16 +26,11 @@ print(rms_series.shape)  # (4,)
 
 # Changelog
 
-## [0.5.0] - 2025-03-14
+## [0.6.0] - 2025-06-29
 
-### Changed
+### Added
 
-* Bump numpy to >=2,<3. If you need compatibility with numpy 1.*, you can use numpy-rms==0.4.2
-
-### Removed
-
-* Remove support for Python 3.8
-* Remove support for PyPy on Windows
+* Add support for Python 3.13
 
 For the complete changelog, go to [CHANGELOG.md](CHANGELOG.md)
 
