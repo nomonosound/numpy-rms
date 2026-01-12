@@ -33,7 +33,7 @@ jobs:
           CIBW_SKIP: >-
             cp38-* cp39-*
             pp38-* pp310-*
-            pp*win_*  # skipped due to cffi issue https://github.com/python-cffi/cffi/pull/118 and npy_cdouble related errors
+            pp*win_*
           CC: clang
         run: |
           python -m cibuildwheel --output-dir wheelhouse
