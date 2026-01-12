@@ -32,8 +32,6 @@ jobs:
           CIBW_ARCHS: "auto64"
           CIBW_SKIP: >-
             cp38-* cp39-*
-            pp38-* pp310-*
-            pp*win_*
           CC: clang
         run: |
           python -m cibuildwheel --output-dir wheelhouse
