@@ -12,8 +12,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, ubuntu-22.04-arm64, macos-13, macos-latest]
-        python-version: ['3.10']
+        os: [ubuntu-22.04, windows-latest, ubuntu-22.04-arm, macos-15-intel, macos-latest]
+        python-version: ['3.11']
 
     if: startsWith(github.event.head_commit.message, 'Release') || github.event_name == 'workflow_dispatch'
     steps:
@@ -25,15 +25,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install cffi cibuildwheel setuptools wheel
+          pip install cffi cibuildwheel==3.3.0 setuptools wheel
       - name: Build and test wheels
         continue-on-error: true
         env:
           CIBW_ARCHS: "auto64"
           CIBW_SKIP: >-
-            cp36-* cp37-* cp38-*
-            pp37-* pp38-* pp310-*
-            pp*win_*  # skipped due to cffi issue https://github.com/python-cffi/cffi/pull/118 and npy_cdouble related errors
+            cp38-* cp39-*
           CC: clang
         run: |
           python -m cibuildwheel --output-dir wheelhouse
